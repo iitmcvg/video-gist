@@ -42,7 +42,7 @@ sc+=(p1.val[0]-p2.val[0])*(p1.val[0]-p2.val[0])+(p1.val[1]-p2.val[1])*(p1.val[1]
    int r1,r2,g1,g2,b1,b2;
    Mat m1;
    sc=0;
-   absdiff(f1,f2,m1); 
+   absdiff(f1,f2,m1);
     for(int i=0;i<f2.rows;i++)
     {
         for(int j=0;j<f2.cols;j++)
@@ -68,15 +68,16 @@ sc+=(p1.val[0]-p2.val[0])*(p1.val[0]-p2.val[0])+(p1.val[1]-p2.val[1])*(p1.val[1]
      scrsd=sqrt(scrvar);
      }
 }
-int main()
+int main(int argc, char **argv)
 {
     char q;Mat frame,prevframe,f1;
-    VideoCapture cap("new4.mp4"); // open the default camera
+    VideoCapture cap(argv[1]); // open the default camera
+    //cout<<argv[1];
     if(!cap.isOpened())  // check if we succeeded
         return -1;
     int i=0;
     Mat edges;
- 
+
     //namedWindow("edges",1);
     cap.read(frame);
     resize(frame,f1,Size(500,500*frame.rows/frame.cols));
@@ -93,7 +94,7 @@ int main()
         //cout<<"Check";
         resize(frame,f1,Size(500,500*frame.rows/frame.cols));
         score(prevframe,f1,1);
-        /*stringstream ss;   
+        /*stringstream ss;
         ss << scr;
         text = ss.str();
         //cout<<text<<endl;
@@ -101,15 +102,15 @@ int main()
         putText(f1, text, Point(40,40), FONT_HERSHEY_PLAIN, 4, Scalar(0,100,100,100),3,8,0);
         imshow("blah",f1);*/
         f1.copyTo(prevframe);
-                //waitKey(30);       /*waitKey(1);*/         
+                //waitKey(30);       /*waitKey(1);*/
     }
 cap.release();
-cap.open("new4.mp4");
+cap.open(argv[1]);
 waitKey(1000);
 cap.read(frame);
     resize(frame,f1,Size(500,500*frame.rows/frame.cols));
     f1.copyTo(prevframe);
- cout<<scravgnew<<" "<<scrsd;
+ //cout<<scravgnew<<" "<<scrsd;
    for(i=0;i<10;i++)
     {a[i]=Mat::zeros(f1.rows,f1.cols,CV_8UC1);
 b[i]=0;
@@ -121,7 +122,7 @@ while(i<10&&cap.read(frame))
     f1.copyTo(a[i]);
     i++;
 }
-while(cap.read(frame)) 
+while(cap.read(frame))
 {
 resize(frame,f1,Size(500,500*frame.rows/frame.cols));
 
@@ -142,7 +143,7 @@ f1.copyTo(a[9]);
 b[i]=1;
 }
 
-            
+
             }
     }
 VideoCapture output("out.avi");
@@ -156,11 +157,10 @@ while(output.read(f1))
     imshow("blah",f1);
     waitKey(30);
     }
-   
+
     waitKey(0);  // the camera will be deinitialized automatically in VideoCapture destructor
 cap.release();
 video.release();
 output.release();
-    return 0; 
+    return 0;
 }
-
